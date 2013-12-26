@@ -1,14 +1,7 @@
 <?php
-/**
- * User
- *
- * @author        Takanori Kobashi kobashi@akane.waseda.jp
- * @since         1.0.0
- * @version       1.0.0
- * @copyright
- */
-class User extends AppModel
-{
+
+
+class User extends AppModel {
     public $name = 'User';
     public $hasOne = array('Student','Completion');
     public $hasMany = array('EventsUser');
@@ -28,12 +21,6 @@ class User extends AppModel
         ),
     );
 
-    /**
-     * getStudentUser
-     * @param: $user_id
-     * @author: T.Kobashi
-     * @since: 1.0.0
-     */
     public function getStudentUser($user_id) {
 
         $result = $this->find('first', array(
@@ -44,12 +31,6 @@ class User extends AppModel
         return $result;
     }
 
-    /**
-     * getCompletionUser
-     * @param: $user_id
-     * @author: T.Kobashi
-     * @since: 1.0.0
-     */
     public function getCompletionUser($user_id) {
 
         $result = $this->find('first', array(

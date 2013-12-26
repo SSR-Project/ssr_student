@@ -1,15 +1,10 @@
 <?php
-/**
- * Event
- *
- * @author        Takanori Kobashi kobashi@akane.waseda.jp
- * @since         1.0.0
- * @version       1.0.0
- * @copyright
- */
-class Event extends AppModel
-{
+
+
+class Event extends AppModel {
+
     public $name = 'Event';
+    // public $hasOne = array('EventsUser');
     public $hasMany = array('EventsUser');
 
     public $validate = array(
@@ -33,12 +28,6 @@ class Event extends AppModel
         ),
     );
 
-    /**
-     * getEvents
-     * @param: $user_id
-     * @author: T.Kobashi
-     * @since: 1.0.0
-     */
     public function getEvents($user_id)
     {
         $result = $this->find('all', array(

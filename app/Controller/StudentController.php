@@ -12,7 +12,7 @@ class StudentController extends AppController
 {
 
     public $name = 'Student';
-    public $uses = array('User','Student','UserConfidential');
+    public $uses = array('User','Student','UserConfidential','Log');
     public $helpers = array('Html', 'Form',);
     public $layout = 'student';
 
@@ -81,7 +81,6 @@ class StudentController extends AppController
         $data['Student']['id'] =  $user['Student']['id'];
 
 
-
         // バリデーション処理
         $this->User->set($data['User']);
         $this->Student->set($data['Student']);
@@ -110,6 +109,21 @@ class StudentController extends AppController
 
         $this->User->commit();
         $this->Student->commit();
+        // トランザクション処理終わり
+
+        // トランザクション処理始め
+        $data = array();
+        $data['Log']['user_id']          =  $this->me['User']['id'];
+        $data['Log']['method_type']      =  INFOCHANGE;
+        $data['Log']['application_type'] =  STUDENT;
+        $this->Log->begin();
+
+        if (!$this->Log->save($data)) {
+            $this->Log->rollback();
+            throw new BadRequestException();
+        }
+
+        $this->Log->commit();
         // トランザクション処理終わり
 
         $this->Session->setFlash('You successfully edit your account.', 'default', array('class' => 'alert alert-success'));
@@ -151,6 +165,21 @@ class StudentController extends AppController
             }
 
             $this->UserConfidential->commit();
+            // トランザクション処理終わり
+
+            // トランザクション処理始め
+            $data = array();
+            $data['Log']['user_id']     =  $this->me['User']['id'];
+            $data['Log']['method_type'] =  PASSCHANGE;
+            $data['Log']['application_type'] =  STUDENT;
+            $this->Log->begin();
+
+            if (!$this->Log->save($data)) {
+                $this->Log->rollback();
+                throw new BadRequestException();
+            }
+
+            $this->Log->commit();
             // トランザクション処理終わり
 
             $this->Session->setFlash('You successfully chage your password.', 'default', array('class' => 'alert alert-success'));

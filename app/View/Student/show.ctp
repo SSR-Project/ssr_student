@@ -5,23 +5,6 @@
       <h3><?php echo $me['User']['name']; ?>さんのアカウント情報</h3>
       <table class="table table-striped">
         <thead>
-<!--               <tr>
-                <th>名前</th>
-                <th>国籍</th>
-                <th>住所</th>
-                <th>電話番号</th>
-                <th>職業</th>
-                <th>生年月日</th>
-                <th>性別</th>
-                <th>学年</th>
-                <th>学部</th>
-                <th>研究科</th>
-                <th>学籍番号</th>
-                <th>保証人氏名</th>
-                <th>保証人住所</th>
-                <th>保証人連絡先</th>
-                <th>入学日</th>
-              </tr> -->
             </thead>
             <tbody>
               <tr>

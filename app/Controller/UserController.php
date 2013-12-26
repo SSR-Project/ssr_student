@@ -12,7 +12,7 @@ class UserController extends AppController
 {
 
     public $name = 'User';
-    public $uses = array('User','UserConfidential');
+    public $uses = array('User','UserConfidential','Log');
     public $helpers = array('Html', 'Form',);
     public $layout = 'base';
 
@@ -43,6 +43,21 @@ class UserController extends AppController
             //未だログインしていなかったらフォーム入力値を見てログイン成功／失敗の振り分け
             if (!empty($this->request->data)) {
                 if ($this->Auth->login()) {
+
+                    // トランザクション処理始め
+                    $data = array();
+                    $data['Log']['user_id']          =  $this->Auth->user('user_id');
+                    $data['Log']['method_type']      =  LOGIN;
+                    $data['Log']['application_type'] =  STUDENT;
+                    $this->Log->begin();
+
+                    if (!$this->Log->save($data)) {
+                        $this->Log->rollback();
+                        throw new BadRequestException();
+                    }
+
+                    $this->Log->commit();
+                    // トランザクション処理終わり
 
                     $this->redirect($this->Auth->redirect());
                 } else {
